@@ -6,7 +6,7 @@ import { ApiResponse } from "../util/ApiResponse.js";
 const postAddProduct = asyncHandler( async (req, res) => {
     //Getting product from frontend as json
     const {productid, name, price, featured, rating, company} = req.body
-    console.log(req.body);
+    
     //validation check - required data is available or not
     if ( 
         [productid, name, price, company].some((field) =>
@@ -18,11 +18,11 @@ const postAddProduct = asyncHandler( async (req, res) => {
     const existedProduct = await Product.findOne({
         $or: [{ productid }]
     })
-    console.log(existedProduct);
+    
     if (existedProduct) {
         throw new ApiError(409, "Product already existed")
     }
-
+ 
     //create user object - create entry call in db
     const product = await Product.create({
         productid,
@@ -47,5 +47,14 @@ const postAddProduct = asyncHandler( async (req, res) => {
 
 })
 
+const getProduct = asyncHandler( async (req, res) => {
+    const products = await Product.find({})
 
-export {postAddProduct}
+    console.log(products);
+    return res.status(200).json(
+        new ApiResponse(200, products, "Here, are all the products from db")
+    )
+})
+
+
+export {postAddProduct, getProduct}
