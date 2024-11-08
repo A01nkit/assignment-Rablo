@@ -47,7 +47,7 @@ const postAddProduct = asyncHandler( async (req, res) => {
 
 })
 
-const getProduct = asyncHandler( async (req, res) => {
+const getProducts = asyncHandler( async (req, res) => {
     const products = await Product.find({})
 
     console.log(products);
@@ -56,5 +56,20 @@ const getProduct = asyncHandler( async (req, res) => {
     )
 })
 
+const getProduct = asyncHandler( async (req, res) => {
+    const productid = req.params['productId']
+    const existedProduct = await Product.findOne({
+        $or: [{ productid }]
+    })
+    // If product do not exist
+    if (!existedProduct) {
+        throw new ApiError(409, "Product do not exist")
+    }
+    return res.status(201).json(
+        new ApiResponse(200, existedProduct, "Product created successfully")
+    )
+    
 
-export {postAddProduct, getProduct}
+})
+
+export {postAddProduct, getProducts, getProduct}
