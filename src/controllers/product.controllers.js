@@ -72,4 +72,28 @@ const getProduct = asyncHandler( async (req, res) => {
 
 })
 
-export {postAddProduct, getProducts, getProduct}
+const deleteProduct = asyncHandler( async (req, res) => {
+    const productid = req.params['productId']
+    const existedProduct = await Product.findOne({
+        $or: [{ productid }]
+    })
+    // If product do not exist
+    if (!existedProduct) {
+        throw new ApiError(409, "Product do not exist")
+    }
+    // If product exist
+    const result = await Product.deleteOne({ productid: productid });
+    
+    if (result.deletedCount > 0) {
+      console.log(`Product with productId "${productid}" deleted.`);
+      return res.status(201).json(
+        new ApiResponse(200, existedProduct, "Product deleted successfully")
+      )
+    } else {
+      console.log(`unbale to delete product with productId: ${productid} from db`);
+      throw new ApiError(500, "Server side error")
+    }
+
+})
+
+export {postAddProduct, getProducts, getProduct, deleteProduct}
