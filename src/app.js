@@ -15,8 +15,8 @@ app.use(express.static("public"))
 
 
 //Routes import
-import productRoutes from "./routes/product.js"
+import productRoutes from "./routes/product.routes.js"
 //Routes declaration
-app.use('/', productRoutes);
+app.use('/api/v1', productRoutes);
 
 export { app }
