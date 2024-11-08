@@ -1,6 +1,6 @@
 import express, { urlencoded } from "express"
 import cors from "cors"
-import productRoutes from "./routes/product.js"
+
 const app = express()
 
 app.use(cors({
@@ -14,6 +14,9 @@ app.use(express.static("public"))
 
 
 
-
+//Routes import
+import productRoutes from "./routes/product.js"
+//Routes declaration
 app.use('/', productRoutes);
+
 export { app }

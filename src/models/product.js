@@ -15,10 +15,10 @@ const productSchema = new mongoose.Schema({
         required: true
     },
     featured: {
-        type: bool
+        type: Boolean
     },
     rating: {
-        type: float
+        type: Number
     },
     company: {
         type: String,
